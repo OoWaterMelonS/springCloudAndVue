@@ -27,4 +27,4 @@ logging:
     com:
       course:
         system:
-          mapper: trace # 该级别打印数据最多
+          mapper: trace # 该级别打印数据更多
