@@ -1,11 +1,12 @@
 spring:
   application:
     name: system
+    #增加数据连接
   datasource:
     url: jdbc:mysql://localhost:3306/courseimooc?characterEncoding=UTF8&autoReconnect=true
-    data-username: courseimooc
-    data-password: 123456
+    username: courseimooc
     driver-class-name: com.mysql.jdbc.Driver
+    password: 123456
 server:
   port: 9001
   servlet:
@@ -18,5 +19,5 @@ eureka:
 #  client:
 #    fetch-registry: false
 #    register-with-eureka: false
-
-#增加数据连接
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
