@@ -1,15 +1,22 @@
 spring:
   application:
     name: system
+  datasource:
+    url: jdbc:mysql://localhost:3306/courseimooc?characterEncoding=UTF8&autoReconnect=true
+    data-username: courseimooc
+    data-password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
 server:
   port: 9001
   servlet:
     context-path: /system
-#eureka:
-#  client:
-#    fetch-registry: false
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+#eureka:
+#  client:
+#    fetch-registry: false
 #    register-with-eureka: false
+
+#增加数据连接
