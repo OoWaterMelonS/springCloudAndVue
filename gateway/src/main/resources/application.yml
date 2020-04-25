@@ -1,14 +1,28 @@
 spring:
   application:
     name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: system
+          uri: http://127.0.0.1:9001
+          predicates:
+            - Path=/system/**
+#        - id: system
+#          uri:
+#          predicates:
+#            - Path=/system/**
+
 server:
   #路由最重要  所以最先开始
   port: 9000
 #eureka:
 #  client:
 #    fetch-registry: false
+#    register-with-eureka: false
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
-#    register-with-eureka: false
+
+#路由转发
