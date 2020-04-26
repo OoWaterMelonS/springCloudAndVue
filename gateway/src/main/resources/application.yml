@@ -8,10 +8,10 @@ spring:
           uri: http://127.0.0.1:9001
           predicates:
             - Path=/system/**
-#        - id: system
-#          uri:
-#          predicates:
-#            - Path=/system/**
+        - id: business
+          uri: http://127.0.0.1:9002
+          predicates:
+            - Path=/business/**
 
 server:
   #路由最重要  所以最先开始
