@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: business
+    #增加数据连接
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/courseimooc?characterEncoding=UTF8&autoReconnect=true
+#    username: courseimooc
+#    driver-class-name: com.mysql.jdbc.Driver
+#    password: 123456
+server:
+  port: 9002
+  servlet:
+    context-path: /business
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#eureka:
+#  client:
+#    fetch-registry: false
+#    register-with-eureka: false
+#mybatis:
+#  mapper-locations: classpath:/mapper/*.xml
+#
+#logging:
+#  level:
+#    com:
+#      course:
+#        system:
+#          mapper: trace # 该级别打印数据更多
