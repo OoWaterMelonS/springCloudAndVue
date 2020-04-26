@@ -973,8 +973,16 @@
 </template>
 
 <script>
-  // 去除掉全局的
-  $('body').removeClass( 'login-layout light-login');
-  // 带上新的
-  $('body').attr('class', 'no-skin');
+
+  export default {
+    name: 'admin',
+    mounted:function () {
+      // 去除掉全局的
+      $('body').removeClass( 'login-layout light-login');
+      // 带上新的
+      $('body').attr('class', 'no-skin');
+    },
+    methods:{
+    }
+  }
 </script>
