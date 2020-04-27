@@ -13,13 +13,19 @@ export  default new Router({
     routes:[{
         path:"*",
         redirect: "/login"
-    },{
+    }, {
+        path: "",
+        redirect: "/login",
+    }, {
         path: "/login",
         component: Login
     },{
         path: "/",
         name:"admin",
         component: Admin,
+        meta: {
+            loginRequire: true
+        },
         children:[{
             path: "welcome",
             name: "welcome",
