@@ -438,7 +438,6 @@
           <div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">EaApple</span>
-							在线视频课程
 						</span>
 
             &nbsp; &nbsp;
@@ -476,7 +475,7 @@
       // 带上新的
       $('body').attr('class', 'no-skin');
       // sidebar 激活样式方法二
-      // 第一次进入的时候 就能起作用
+      // 第一次进入的时候 就能起作用  避免下面监听的时候 第一次进去没法让admin的子路由的箭头效果起作用
       _this.activeSidebar(_this.$route.name.replace("/","-")+"-sidebar");
     },
     watch:{
@@ -490,7 +489,6 @@
             // 这个地方使用到了前方的约定  business-chapter-sidebar  将路由business/chapter，也就是router中的name  变成business-chapter-sidebar
             _this.activeSidebar(_this.$route.name.replace("/","-")+"-sidebar");
           })
-
         }
       }
     },
@@ -505,8 +503,10 @@
         $("#"+id).siblings().find("li").removeClass("active");
         $("#"+id).addClass("active");
 
-        // 如果有父菜单，父菜单的兄弟菜单去掉open active,父菜单增加 open active
+       //jQuery的使用
+        // 拿到父节点li的dom节点, 关联上上面代码watch->route中的代码逻辑
         let parentLi = $("#"+id).parents("li");
+        // 如果有父菜单，父菜单的兄弟菜单去掉open active,父菜单增加 open active
         if(parentLi){
           parentLi.siblings().removeClass("open active");
           parentLi.addClass("open active");

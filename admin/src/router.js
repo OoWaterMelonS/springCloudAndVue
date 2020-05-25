@@ -19,21 +19,22 @@ export  default new Router({
     }, {
         path: "/login",
         component: Login
-    },{
+    }, {
         path: "/",
-        name:"admin",
+        name: "admin",
         component: Admin,
         meta: {
             loginRequire: true
         },
-        children:[{
+        children: [{
             path: "welcome",
             name: "welcome",
             component: Welcome,
-        },{
+        }, {
             path: "business/chapter",
             name: "business/chapter",
             component: Chapter,
-        }]
+        }],
     }]
 })
+
