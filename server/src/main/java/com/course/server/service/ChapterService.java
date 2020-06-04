@@ -5,6 +5,7 @@ import com.course.server.domain.ChapterExample;
 import com.course.server.dto.ChapterDto;
 import com.course.server.dto.PageDto;
 import com.course.server.mapper.ChapterMapper;
+import com.course.server.utils.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
@@ -24,7 +25,7 @@ public class ChapterService {
     @Resource
     private ChapterMapper chapterMapper;
 
-    // 为什么不返回了呢
+
     public PageDto list(PageDto pageDto){
         // 查第一页，查一条
         // 注意：pageNum是从1开始的，不是从0开始的
@@ -46,5 +47,13 @@ public class ChapterService {
         pageDto.setList(chapterList);
         // 此处的pageDto是从前端拿到的  后端不返回，前端也能拿到这个对象
         return pageDto;
+    }
+
+
+    public void save(ChapterDto chapterDto){
+        chapterDto.setId(UuidUtil.getShortUuid());
+       Chapter chapter = new Chapter();
+       BeanUtils.copyProperties(chapterDto,chapter);
+       chapterMapper.insert(chapter);
     }
 }
