@@ -32,7 +32,7 @@
             <button v-on:click="edit(chapter)" class="btn btn-xs btn-info">
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
-            <button class="btn btn-xs btn-danger">
+            <button v-on:click="del(chapter.id)" class="btn btn-xs btn-danger">
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
             </button>
           </div>
@@ -131,6 +131,14 @@
             $("#form-modal").modal("hide");
             _this.list(1);
           }
+        });
+
+      },
+      del(id){
+        let _this = this;
+        _this.$ajax.delete('http://127.0.0.1:9000/business/admin/chapter/delete/' + id).then((response) => {
+          console.log("删除章列表结果", response);// chapter作为前后端交互传参
+          _this.list(1);//删除成功以后 重新查询一遍即可
         });
 
       },
