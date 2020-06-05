@@ -27,65 +27,19 @@
         <td>{{chapter.id}}</td>
         <td>{{chapter.name}}</td>
         <td>{{chapter.courseId}}</td>
-        <!--          操作内容-->
         <td>
           <div class="hidden-sm hidden-xs btn-group">
-            <button class="btn btn-xs btn-success">
-              <i class="ace-icon fa fa-check bigger-120"></i>
-            </button>
-
-            <button class="btn btn-xs btn-info">
+            <button v-on:click="edit(chapter)" class="btn btn-xs btn-info">
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
-
             <button class="btn btn-xs btn-danger">
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
             </button>
-
-            <button class="btn btn-xs btn-warning">
-              <i class="ace-icon fa fa-flag bigger-120"></i>
-            </button>
-          </div>
-
-          <div class="hidden-md hidden-lg">
-            <div class="inline pos-rel">
-              <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-              </button>
-
-              <ul
-                class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                <li>
-                  <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-																			<span class="blue">
-																				<i class="ace-icon fa fa-search-plus bigger-120"></i>
-																			</span>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-																			<span class="green">
-																				<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																			</span>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-																			<span class="red">
-																				<i class="ace-icon fa fa-trash-o bigger-120"></i>
-																			</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
         </td>
       </tr>
       </tbody>
     </table>
-
 
     <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
@@ -142,8 +96,15 @@
     methods:{
       add(){
         let _this = this;
+        _this.chapter={};// 这个是保证在每一次新增的时候 不会带入上一次修改时候留下的数据  因为上次修改数据还保存在chapter中没有被清空
         // 此处不是一个方法
         $("#form-modal").modal("show")
+      },
+      edit(chapter){
+        let _this = this;//1 点击要弹出模态框  2  模态打开以后要展示对应id的记录的数据
+        // _this.chapter = chapter;// 此处修改其他的地方也跟着进行了改变
+        _this.chapter = $.extend({},chapter);// 使用jquery的方法  复制一份给模态框展示需要 当用户取消的时候，就不会把值给数据库表格数据
+        $("#form-modal").modal("show");
 
       },
       list(page){
@@ -166,7 +127,7 @@
           console.log("保存章列表结果",response);// chapter作为前后端交互传参
           let resp = response.data;
           if(resp.success){
-            //如果数据成功
+            //如果数据成功  就把模态框给关闭掉
             $("#form-modal").modal("hide");
             _this.list(1);
           }
