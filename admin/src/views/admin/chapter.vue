@@ -53,7 +53,7 @@
                 </li>
 
                 <li>
-                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                  <a v-on:click="edit(chapter)" class="tooltip-success" data-rel="tooltip" title="Edit">
 																			<span class="green">
 																				<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																			</span>
@@ -61,7 +61,7 @@
                 </li>
 
                 <li>
-                  <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                  <a v-on:click="del(chapter.id)" class="tooltip-error" data-rel="tooltip" title="Delete">
 																			<span class="red">
 																				<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																			</span>
@@ -163,6 +163,7 @@
           if(resp.success){
             //如果数据成功  就把模态框给关闭掉
             $("#form-modal").modal("hide");
+            toast.success("保存成功！");
             _this.list(1);
           }
         });
@@ -183,11 +184,7 @@
             _this.$ajax.delete('http://127.0.0.1:9000/business/admin/chapter/delete/' + id).then((response) => {
               console.log("删除章列表结果", response);// chapter作为前后端交互传参
               _this.list(1);//删除成功以后 重新查询一遍即可
-              Swal.fire(
-                '删除成功!',
-                '删除成功!',
-                'success'
-              )
+              toast.success("删除成功！");
             });
 
           }
