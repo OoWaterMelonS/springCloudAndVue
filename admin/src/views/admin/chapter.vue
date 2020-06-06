@@ -167,7 +167,7 @@
           if(resp.success){
             //如果数据成功  就把模态框给关闭掉
             $("#form-modal").modal("hide");
-            toast.success("保存成功！");
+            Toast.success("保存成功！");
             _this.list(1);
           }
         });
@@ -175,24 +175,14 @@
       },
       del(id){
         let _this = this;
-        Loading.show();
-        Swal.fire({
-          title: '确认删除',
-          text: "删除后不可恢复，确认删除!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: '确认!'
-        }).then((result) => {
-          if (result.value) {
-            _this.$ajax.delete('http://127.0.0.1:9000/business/admin/chapter/delete/' + id).then((response) => {
-              Loading.hide();
-              console.log("删除章列表结果", response);// chapter作为前后端交互传参
-              _this.list(1);//删除成功以后 重新查询一遍即可
-              toast.success("删除成功！");
-            });
-          }
+        Confirm.show('删除大章后不可恢复，确认删除？',function () {
+          Loading.show();
+          _this.$ajax.delete('http://127.0.0.1:9000/business/admin/chapter/delete/' + id).then((response) => {
+            Loading.hide();
+            console.log("删除章列表结果", response);// chapter作为前后端交互传参
+            _this.list(1);//删除成功以后 重新查询一遍即可
+            Toast.success("删除成功！");
+        })
         });
       },
     }

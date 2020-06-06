@@ -9,7 +9,7 @@ Confirm = {
       cancelButtonColor: '#d33',
       confirmButtonText: '确认!'
     }).then((result) => {
-      if (result.value) {
+      if (result.value) {// 将变化的代码（组件无关的代码）作为回调函数传递进来
         if (callback) {
           callback()
         }
