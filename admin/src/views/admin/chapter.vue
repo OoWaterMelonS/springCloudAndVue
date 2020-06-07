@@ -149,7 +149,6 @@
           size: _this.$refs.pagination.size
         }).then((response)=>{
           Loading.hide();
-          console.log("查询章列表结果",response);
           let resp = response.data;
           _this.chapters=resp.content.list;
           //  点击对应的按钮 要进行渲染  编程激活的状态
@@ -170,7 +169,6 @@
         Loading.show();
         _this.$ajax.post('http://127.0.0.1:9000/business/admin/chapter/save',_this.chapter).then((response)=>{
           Loading.hide();
-          console.log("保存章列表结果",response);// chapter作为前后端交互传参
           let resp = response.data;
           if(resp.success){
             //如果数据成功  就把模态框给关闭掉
@@ -181,7 +179,6 @@
             Toast.warning(resp.message);
           }
         });
-
       },
       del(id){
         let _this = this;
@@ -189,7 +186,6 @@
           Loading.show();
           _this.$ajax.delete('http://127.0.0.1:9000/business/admin/chapter/delete/' + id).then((response) => {
             Loading.hide();
-            console.log("删除章列表结果", response);// chapter作为前后端交互传参
             _this.list(1);//删除成功以后 重新查询一遍即可
             Toast.success("删除成功！");
         })
