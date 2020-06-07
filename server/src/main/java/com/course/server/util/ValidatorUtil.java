@@ -1,4 +1,4 @@
-package com.course.server.utils;
+package com.course.server.util;
 
 import com.course.server.exception.ValidatorException;
 import org.springframework.util.StringUtils;
