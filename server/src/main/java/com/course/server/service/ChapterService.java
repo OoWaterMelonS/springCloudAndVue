@@ -27,7 +27,6 @@ public class ChapterService {
     @Resource
     private ChapterMapper chapterMapper;
 
-
     public PageDto list(PageDto pageDto){
         // 查第一页，查一条
         // 注意：pageNum是从1开始的，不是从0开始的
