@@ -16,7 +16,7 @@ import java.util.Map;
  * @6/8/2020 10:38 AM
  * description：
  */
-public class FreeMarkerUtil {
+public class FreemarkerUtil {
     // 模板文件一般是固定的   输出文件一般则不固定
     static String ftlPath = "generator\\src\\main\\java\\com\\course\\generator\\ftl\\";
     static Template temp;
