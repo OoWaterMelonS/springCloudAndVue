@@ -15,7 +15,7 @@
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr><#list fieldList as field>
-        <th>${field.nameCn}</th></#list>
+        <th>${{field.nameCn}}</th></#list>
         <th>操作</th>
       </tr>
       </thead>
@@ -94,7 +94,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button v-on:click="save" type="button" class="btn btn-primary">保存</button>
+            <button v-on:click="save()" type="button" class="btn btn-primary">保存</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

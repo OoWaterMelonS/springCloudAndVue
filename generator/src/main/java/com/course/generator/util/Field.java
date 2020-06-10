@@ -1,5 +1,6 @@
 package com.course.generator.util;
 
+// 用于将一个字段转换为需要的各种类型，后面只需要get取到对应的内容即可
 public class Field {
     private String name; // 字段名：course_id
     private String nameHump; // 字段名小驼峰：courseId
