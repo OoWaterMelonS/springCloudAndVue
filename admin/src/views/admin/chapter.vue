@@ -46,25 +46,25 @@
                 class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                 <li>
                   <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-																			<span class="blue">
-																				<i class="ace-icon fa fa-search-plus bigger-120"></i>
-																			</span>
+                    <span class="blue">
+                      <i class="ace-icon fa fa-search-plus bigger-120"></i>
+                    </span>
                   </a>
                 </li>
 
                 <li>
                   <a v-on:click="edit(chapter)" class="tooltip-success" data-rel="tooltip" title="Edit">
-																			<span class="green">
-																				<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																			</span>
+                    <span class="green">
+                      <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                    </span>
                   </a>
                 </li>
 
                 <li>
                   <a v-on:click="del(chapter.id)" class="tooltip-error" data-rel="tooltip" title="Delete">
-																			<span class="red">
-																				<i class="ace-icon fa fa-trash-o bigger-120"></i>
-																			</span>
+                    <span class="red">
+                      <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                    </span>
                   </a>
                 </li>
               </ul>
@@ -106,7 +106,6 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
   </div><!-- /.span -->
-
 </template>
 
 <script>
