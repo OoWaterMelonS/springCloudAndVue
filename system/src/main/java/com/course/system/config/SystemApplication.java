@@ -12,7 +12,7 @@ import org.springframework.core.env.Environment;
 @SpringBootApplication
 @EnableEurekaClient
 @MapperScan("com.course.server.mapper")
-@ComponentScan("com.course")
+@ComponentScan("com.course")  // 拿到所有的bean   主要还是用server中
 public class SystemApplication {
 	// 使用slf4j 日志框架
 	private static final Logger LOG = LoggerFactory.getLogger(SystemApplication.class);

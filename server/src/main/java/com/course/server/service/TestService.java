@@ -20,7 +20,9 @@ public class TestService {
 
     public List<Test> list(){
         TestExample testExample = new TestExample();
-        testExample.createCriteria().andIdEqualTo("1");
+        testExample.setOrderByClause("id desc");
+//        testExample.createCriteria();
+//        testExample.createCriteria().andIdEqualTo("1");
 //        testExample.setOrderByClause("id desc");
         return testMapper.selectByExample(testExample);
     }

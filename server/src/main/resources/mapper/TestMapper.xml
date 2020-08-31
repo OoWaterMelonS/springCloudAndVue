@@ -66,6 +66,9 @@
   <sql id="Base_Column_List">
     id, name
   </sql>
+  <select id="list" resultType="com.course.server.domain.Test">
+    select t.id ,t.name from test t
+  </select>
   <select id="selectByExample" parameterType="com.course.server.domain.TestExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

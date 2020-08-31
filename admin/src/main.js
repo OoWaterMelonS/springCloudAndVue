@@ -1,25 +1,8 @@
 import Vue from 'vue'
-import App from './app.vue'
-import router from './router'
-import axios from 'axios'
+import App from './App.vue'
 
-
-Vue.config.productionTip = false;
-Vue.prototype.$ajax = axios;
-
-/**
- * axios拦截器
- *
- * */
-axios.interceptors.response.use(function (response) {
-  console.log("返回结果：", response);
-  return response;
-}, error => {});
+Vue.config.productionTip = false
 
 new Vue({
-  router,
   render: h => h(App),
 }).$mount('#app')
-
-
-console.log(process.env.NODE_ENV);
