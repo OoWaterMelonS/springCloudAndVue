@@ -978,10 +978,17 @@
 </template>
 
 <script>
-$('body').remove('class', 'login-layout light-login');
-$('body').attr('class', 'no-skin');
 export default {
-  name: "admin"
+  name: 'admin',
+  mounted:function (){
+    $('body').remove('class', 'login-layout light-login');
+    $('body').attr('class', 'no-skin');
+  },
+  methods:{
+    login(){
+      this.$router.push("admin")
+    }
+  }
 }
 </script>
 
