@@ -1,9 +1,10 @@
 spring:
     #增加数据连接
   datasource:
-    url: jdbc:mysql://localhost:3306/courseimooc?characterEncoding=UTF8&autoReconnect=true
+#    url: jdbc:mysql://localhost:3306/courseimooc?characterEncoding=UTF8&autoReconnect=true
+    url: jdbc:mysql://localhost:3306/courseimooc?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&autoReconnect=true
     username: courseimooc
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     password: 123456
 #server:
 #  port: 9001
