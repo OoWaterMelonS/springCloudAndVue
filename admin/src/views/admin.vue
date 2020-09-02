@@ -321,7 +321,6 @@
 
     <div class="main-container ace-save-state" id="main-container">
 
-
       <div id="sidebar" class="sidebar responsive  ace-save-state">
 
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
@@ -347,10 +346,6 @@
             <span class="btn btn-success"></span>
 
             <span class="btn btn-info"></span>
-
-            <span class="btn btn-warning"></span>
-
-            <span class="btn btn-danger"></span>
           </div>
         </div><!-- /.sidebar-shortcuts -->
 
@@ -377,10 +372,9 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
-              <li class="">
+              <li class="active open">
                 <a href="#" class="dropdown-toggle">
                   <i class="menu-icon fa fa-caret-right"></i>
-
                   用户管理
                   <b class="arrow fa fa-angle-down"></b>
                 </a>
@@ -389,69 +383,30 @@
 
                 <ul class="submenu">
                   <li class="">
-                    <a href="top-menu.html">
+                    <a href="">
                       <i class="menu-icon fa fa-caret-right"></i>
-
-                    </a>
-
-                    <b class="arrow"></b>
-                  </li>
-
-                  <li class="">
-                    <a href="two-menu-1.html">
-                      <i class="menu-icon fa fa-caret-right"></i>
-                      Two Menus 1
-                    </a>
-
-                    <b class="arrow"></b>
-                  </li>
-
-                  <li class="">
-                    <a href="two-menu-2.html">
-                      <i class="menu-icon fa fa-caret-right"></i>
-                      Two Menus 2
-                    </a>
-
-                    <b class="arrow"></b>
-                  </li>
-
-                  <li class="">
-                    <a href="mobile-menu-1.html">
-                      <i class="menu-icon fa fa-caret-right"></i>
-                      Default Mobile Menu
-                    </a>
-
-                    <b class="arrow"></b>
-                  </li>
-
-                  <li class="">
-                    <a href="mobile-menu-2.html">
-                      <i class="menu-icon fa fa-caret-right"></i>
-                      Mobile Menu 2
-                    </a>
-
-                    <b class="arrow"></b>
-                  </li>
-
-                  <li class="">
-                    <a href="mobile-menu-3.html">
-                      <i class="menu-icon fa fa-caret-right"></i>
-                      Mobile Menu 3
+                      权限管理
                     </a>
 
                     <b class="arrow"></b>
                   </li>
                 </ul>
               </li>
-
-              <li class="">
-                <a href="typography.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  权限管理
+              <li class="active open">
+                <a href="#" class="dropdown-toggle">
+                  <router-link to="admin/business/chapter">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    大章管理
+                    <b class="arrow "></b>
+                  </router-link>
                 </a>
 
                 <b class="arrow"></b>
+
+                <ul class="submenu">
+                </ul>
               </li>
+
             </ul>
           </li>
         </ul><!-- /.nav-list -->
