@@ -63,15 +63,9 @@ public class ChapterService {
         return chapterDto;
     }
 
-    public void save1(ChapterDto chapterDto) {
-        Chapter chapter = CopyUtil.copy(chapterDto,Chapter.class);
-        chapter.setId(UuidUtil.getShortUuid());
-        chapterMapper.insert(chapter);
-    }
-
+    // private  不要暴露出去domain的方法
     private void insert(Chapter chapter) {
         chapter.setId(UuidUtil.getShortUuid());
-
         chapterMapper.insert(chapter);
     }
 

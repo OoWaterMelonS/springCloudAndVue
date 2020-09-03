@@ -64,13 +64,4 @@ public class ChapterController {
     }
 
 
-    @PostMapping("/save1")
-    public ResponseDto save1(@RequestBody ChapterDto chapterDto){
-        LOG.info("chapterDto:{}",chapterDto);
-
-        ResponseDto responseDto = ResponseDto.getInstance();
-        chapterService.save1(chapterDto);
-        responseDto.setContent(chapterDto);
-        return responseDto;
-    }
 }
