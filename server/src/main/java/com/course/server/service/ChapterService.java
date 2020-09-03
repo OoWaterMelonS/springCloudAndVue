@@ -27,7 +27,7 @@ public class ChapterService {
     @Resource
     private ChapterMapper chapterMapper;
 
-    public PageDto list(PageDto pageDto){
+    public void list(PageDto pageDto){
         // 查第一页，查一条
         // 注意：pageNum是从1开始的，不是从0开始的
         PageHelper.startPage(pageDto.getPage(),pageDto.getSize());
@@ -37,6 +37,7 @@ public class ChapterService {
         PageInfo<Chapter> pageInfo = new PageInfo<>(chapterList);
         pageDto.setTotal(pageInfo.getTotal());
         List<ChapterDto> chapterDtoList = new ArrayList<ChapterDto>();
+
         for ( int i = 0,length = chapterList.size(); i < length; i++){
             ChapterDto chapterDto = new ChapterDto();
             Chapter chapter = chapterList.get(i);
@@ -45,9 +46,10 @@ public class ChapterService {
                 chapterDtoList.add(chapterDto);
             }
         }
+
         pageDto.setList(chapterList);
         // 此处的pageDto是从前端拿到的  后端不返回，前端也能拿到这个对象
-        return pageDto;
+//        return pageDto;
     }
 
     public ChapterDto save(ChapterDto chapterDto) {

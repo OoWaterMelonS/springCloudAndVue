@@ -1,16 +1,16 @@
 <template>
   <div>
-    <p>
-      <button v-on:click="add()" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-edit"></i>
-        新增
-      </button>
-      &nbsp;
-      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-refresh"></i>
-        刷新
-      </button>
-    </p>
+<!--    <p>-->
+<!--      <button v-on:click="add()" class="btn btn-white btn-default btn-round">-->
+<!--        <i class="ace-icon fa fa-edit"></i>-->
+<!--        新增-->
+<!--      </button>-->
+<!--      &nbsp;-->
+<!--      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">-->
+<!--        <i class="ace-icon fa fa-refresh"></i>-->
+<!--        刷新-->
+<!--      </button>-->
+<!--    </p>-->
     <div class="main-container ace-save-state" id="main-container">
       <div class="main-content">
         <div class="main-content-inner">
@@ -71,25 +71,25 @@
                           <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                             <li>
                               <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                                    <span class="blue">
-                                      <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                    </span>
+                                  <span class="blue">
+                                    <i class="ace-icon fa fa-search-plus bigger-120"></i>
+                                  </span>
                               </a>
                             </li>
 
                             <li>
                               <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                    <span class="green">
-                                      <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                    </span>
+                                  <span class="green">
+                                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                  </span>
                               </a>
                             </li>
 
                             <li>
                               <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                    <span class="red">
-                                      <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                    </span>
+                                  <span class="red">
+                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                  </span>
                               </a>
                             </li>
                           </ul>
@@ -138,25 +138,25 @@
                           <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                             <li>
                               <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                                    <span class="blue">
-                                      <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                    </span>
+                                  <span class="blue">
+                                    <i class="ace-icon fa fa-search-plus bigger-120"></i>
+                                  </span>
                               </a>
                             </li>
 
                             <li>
                               <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                    <span class="green">
-                                      <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                    </span>
+                                  <span class="green">
+                                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                  </span>
                               </a>
                             </li>
 
                             <li>
                               <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                    <span class="red">
-                                      <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                    </span>
+                                  <span class="red">
+                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                  </span>
                               </a>
                             </li>
                           </ul>
@@ -406,11 +406,15 @@
 <script>
 export default {
   name: "chapter",
-  data:function (){
-   return{
-     chapter:{},
-     chapters:[]
-   }
+  mounted() {
+    let _this = this
+    _this.$parent.activeSidebar("business-chapter-sidebar");
+  },
+  data: function () {
+    return {
+      chapter: {},
+      chapters: []
+    }
   }
 }
 </script>
