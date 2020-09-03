@@ -46,7 +46,7 @@
 <!--            <artifactId>spring-cloud-netflix-eureka-client</artifactId>-->
 <!--            <version>2.2.2.RELEASE</version>-->
 <!--        </dependency>-->
-        <!--        aop-->
+        <!--        aop和日志打印输出作用  aop+fastjson-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>

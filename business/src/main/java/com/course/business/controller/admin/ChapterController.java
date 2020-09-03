@@ -27,6 +27,9 @@ public class ChapterController {
     @Resource
     private ChapterService chapterService;
 
+    /**
+     * 列表查询
+     */
     @PostMapping("/list")
     public ResponseDto list(@RequestBody PageDto pageDto){
         // 此处考不考虑直接新建一个静态方法呢
@@ -37,6 +40,10 @@ public class ChapterController {
         responseDto.setContent(pageDto);
         return responseDto;
     }
+
+    /**
+     * 保存，id有值时更新，无值时新增
+     */
     @PostMapping("/save")
     public ResponseDto save(@RequestBody ChapterDto chapterDto){
         LOG.info("chapterDto:{}",chapterDto);

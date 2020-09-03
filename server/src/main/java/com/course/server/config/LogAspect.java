@@ -36,8 +36,8 @@ public class LogAspect {
 
     @Before("controllerPointcut()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
-        // 日志编号
-        MDC.put("UUID", UuidUtil.getShortUuid());
+        // 日志编号 日志跟踪号  日志流水号 日志token   数据挖掘
+        MDC.put("UUID", UuidUtil.getShortUuid());// %green(%-8X{UUID})
 
         // 开始打印请求日志
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
