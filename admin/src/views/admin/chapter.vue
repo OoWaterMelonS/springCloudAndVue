@@ -1,16 +1,17 @@
 <template>
   <div>
-    <!--    <p>-->
-    <!--      <button v-on:click="add()" class="btn btn-white btn-default btn-round">-->
-    <!--        <i class="ace-icon fa fa-edit"></i>-->
-    <!--        新增-->
-    <!--      </button>-->
-    <!--      &nbsp;-->
-    <!--      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">-->
-    <!--        <i class="ace-icon fa fa-refresh"></i>-->
-    <!--        刷新-->
-    <!--      </button>-->
-    <!--    </p>-->
+        <p>
+<!--          <button v-on:click="add()" class="btn btn-white btn-default btn-round">-->
+<!--            <i class="ace-icon fa fa-edit"></i>-->
+<!--            新增-->
+<!--          </button>-->
+<!--          &nbsp;-->
+          <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
+            <i class="ace-icon fa fa-refresh"></i>
+            刷新
+          </button>
+        </p>
+    <pagination ref="pagination" v-bind:list="list" v-bind:item-count="6"></pagination>
     <div class="main-container ace-save-state" id="main-container">
       <div class="main-content">
         <div class="main-content-inner">
@@ -90,7 +91,7 @@
                 </table>
               </div><!-- /.span -->
             </div><!-- /.row -->
-<!--            <pageination ref="pagination" v-bind:list="list" v-bind:item-count="6"></pageination>-->
+
             <div class="hr hr-18 dotted hr-double"></div>
 
             <div id="modal-table" class="modal fade" tabindex="-1">
@@ -219,10 +220,13 @@
 </template>
 
 <script>
+import Pagination from "../../components/pagination"
 export default {
+  components:{Pagination},
   name: "chapter",
   mounted() {
     let _this = this;
+    _this.$refs.pagination.size=5;
     _this.list();
     // 方法1
     // let _this = this
@@ -235,14 +239,15 @@ export default {
     }
   },
   methods: {
-    list() {
+    list(page) {
       let _this = this;
       _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list1",{
-        page:1,
-        size:2,
+        page:page,
+        size:_this.$refs.pagination.size// ref 获取子组件其中的一个变量,设定好一页要多少条数
       }).then((response) => {
         console.log("查询大章列表", response);
         _this.chapters = response.data.list;
+        _this.$refs.pagination.render(page,response.data.total)
       })
     }
   }

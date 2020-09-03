@@ -31,6 +31,8 @@
         <select v-model="size">
             <option value="1">1</option>
             <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="50">50</option>
@@ -49,7 +51,7 @@
         type: Function,
         default: null
       },
-      itemCount: Number // 显示的页码数，比如总共有100页，只显示10页，其它用省略号表示
+      itemCount: Number // 显示的页码数，比如总共有100页，只显示10页，其它用省略号表示  有多少个按钮
     },
     data: function () {
       return {
