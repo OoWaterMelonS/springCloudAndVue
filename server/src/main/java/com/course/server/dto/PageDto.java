@@ -1,5 +1,7 @@
 package com.course.server.dto;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**

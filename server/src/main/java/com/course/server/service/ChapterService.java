@@ -77,16 +77,20 @@ public class ChapterService {
         chapterMapper.deleteByPrimaryKey(id);
     }
 
-    public List<ChapterDto> list1(){
+    public void list1(PageDto pageDto){
         ChapterExample chapterExample = new ChapterExample();
         chapterExample.getOrderByClause();
+        PageHelper.startPage(pageDto.getPage(),pageDto.getSize());
         List<Chapter> chapterList = chapterMapper.selectByExample(chapterExample);
+        PageInfo<Chapter> pageInfo = new PageInfo<>(chapterList);
+        pageDto.setTotal(pageInfo.getTotal());
+
         List<ChapterDto> chapterDtoList = new ArrayList<>();
         for (int i = 0,l = chapterList.size(); i < l; i++){
             ChapterDto chapterDto = new ChapterDto();
             BeanUtils.copyProperties(chapterList.get(i),chapterDto);
             chapterDtoList.add(chapterDto);
         }
-        return chapterDtoList;
+        pageDto.setList(chapterDtoList);
     }
 }

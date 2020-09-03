@@ -29,9 +29,9 @@
                   </thead>
                   <tbody>
                   <tr v-for="chapter in chapters">
-                    <td>{{ chapter.Id }}</td>
-                    <td>{{ chapter.name }}</td>
-                    <td>{{ chapter.courseId}}</td>
+                    <td class="detail-col">{{ chapter.id }}</td>
+                    <td class="detail-col">{{ chapter.name }}</td>
+                    <td class="detail-col">{{ chapter.courseId}}</td>
                     <td>
                       <div class="hidden-sm hidden-xs btn-group">
                         <button class="btn btn-xs btn-success">
@@ -237,9 +237,12 @@ export default {
   methods: {
     list() {
       let _this = this;
-      _this.$ajax.get("http://127.0.0.1:9000/business/admin/chapter/list1").then((response) => {
-        console.log("查询大章列表", response.data.content);
-        _this.chapters = response.data.content;
+      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list1",{
+        page:1,
+        size:2,
+      }).then((response) => {
+        console.log("查询大章列表", response);
+        _this.chapters = response.data.list;
       })
     }
   }
