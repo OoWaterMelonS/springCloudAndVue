@@ -155,25 +155,25 @@ export default {
         if (resp.success) {
           $("#form-modal").modal("hide");
           _this.list(1);
-          toast.success("保存成功");
+          Toast.success("保存成功");
         }
       })
     },
     del(id) {
       let _this = this;
-      Loading.show();
-      _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/delete/" + id).then((response) => {
-        Loading.hide();
-            console.log("删除大章", response);
-            let resp = response.data;
-            if (resp.success) {
-              _this.list(1);//todo 这个怎么停留在此前的界面呢？
-              toast.success("删除成功");
-            } else {
-              toast.error("删除失败");
+      Confirm.show("确认删除大章？",function (){
+        Loading.show();
+        _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/delete/" + id).then((response) => {
+              Loading.hide();
+              console.log("删除大章", response);
+              let resp = response.data;
+              if (resp.success) {
+                _this.list(1);//todo 这个怎么停留在此前的界面呢？
+                Toast.success("删除成功");
+              }
             }
-          }
-      )
+        )
+      })
     },
 
   }
