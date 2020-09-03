@@ -1,16 +1,5 @@
 <template>
   <div>
-        <p>
-<!--          <button v-on:click="add()" class="btn btn-white btn-default btn-round">-->
-<!--            <i class="ace-icon fa fa-edit"></i>-->
-<!--            新增-->
-<!--          </button>-->
-<!--          &nbsp;-->
-          <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
-            <i class="ace-icon fa fa-refresh"></i>
-            刷新
-          </button>
-        </p>
     <pagination ref="pagination" v-bind:list="list" v-bind:item-count="6"></pagination>
     <div class="main-container ace-save-state" id="main-container">
       <div class="main-content">
@@ -94,120 +83,50 @@
 
             <div class="hr hr-18 dotted hr-double"></div>
 
-            <div id="modal-table" class="modal fade" tabindex="-1">
-              <div class="modal-dialog">
+            <div class="modal fade" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                  <div class="modal-header no-padding">
-                    <div class="table-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        <span class="white">&times;</span>
-                      </button>
-                      Results for "Latest Registered Domains
-                    </div>
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">表单</h4>
                   </div>
-
-                  <div class="modal-body no-padding">
-                    <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
-                      <thead>
-                      <tr>
-                        <th>Domain</th>
-                        <th>Price</th>
-                        <th>Clicks</th>
-
-                        <th>
-                          <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                          Update
-                        </th>
-                      </tr>
-                      </thead>
-
-                      <tbody>
-                      <tr>
-                        <td>
-                          <a href="#">ace.com</a>
-                        </td>
-                        <td>$45</td>
-                        <td>3,330</td>
-                        <td>Feb 12</td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <a href="#">base.com</a>
-                        </td>
-                        <td>$35</td>
-                        <td>2,595</td>
-                        <td>Feb 18</td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <a href="#">max.com</a>
-                        </td>
-                        <td>$60</td>
-                        <td>4,400</td>
-                        <td>Mar 11</td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <a href="#">best.com</a>
-                        </td>
-                        <td>$75</td>
-                        <td>6,500</td>
-                        <td>Apr 03</td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <a href="#">pro.com</a>
-                        </td>
-                        <td>$55</td>
-                        <td>4,250</td>
-                        <td>Jan 21</td>
-                      </tr>
-                      </tbody>
-                    </table>
+                  <div class="modal-body">
+                    <form class="form-horizontal">
+                      <div class="form-group">
+                        <label  class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-10">
+                          <input v-model="chapter.name" class="form-control"  placeholder="名称">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label  class="col-sm-2 control-label">课程id</label>
+                        <div class="col-sm-10">
+                          <input v-model="chapter.courseId" class="form-control"  placeholder="课程id">
+                        </div>
+                      </div>
+                    </form>
                   </div>
-
-                  <div class="modal-footer no-margin-top">
-                    <button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
-                      <i class="ace-icon fa fa-times"></i>
-                      Close
-                    </button>
-
-                    <ul class="pagination pull-right no-margin">
-                      <li class="prev disabled">
-                        <a href="#">
-                          <i class="ace-icon fa fa-angle-double-left"></i>
-                        </a>
-                      </li>
-
-                      <li class="active">
-                        <a href="#">1</a>
-                      </li>
-
-                      <li>
-                        <a href="#">2</a>
-                      </li>
-
-                      <li>
-                        <a href="#">3</a>
-                      </li>
-
-                      <li class="next">
-                        <a href="#">
-                          <i class="ace-icon fa fa-angle-double-right"></i>
-                        </a>
-                      </li>
-                    </ul>
+                  <div class="modal-footer">
+                    <button type="button"  class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button v-on:click="save()" type="button" class="btn btn-primary">保存</button>
                   </div>
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
-            </div>
-
+            </div><!-- /.modal -->
+            <p>
+              <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+                <i class="ace-icon fa fa-edit"></i>
+                新增
+              </button>
+              &nbsp;
+              <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
+                <i class="ace-icon fa fa-refresh"></i>
+                刷新
+              </button>
+            </p>
             <!-- PAGE CONTENT ENDS -->
           </div><!-- /.page-content -->
+
         </div>
       </div><!-- /.main-content -->
 
@@ -234,22 +153,35 @@ export default {
   },
   data: function () {
     return {
-      chapter: {},
+      chapter: {},  //映射表单数据
       chapters: []// 初始化
     }
   },
   methods: {
+    add(){
+      let _this = this
+      $(".modal").modal("show");
+      // $(".modal").modal("hide");
+      // $(".modal").modal({background:'static'});
+    },
     list(page) {
       let _this = this;
-      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list1",{
+      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list",{
         page:page,
         size:_this.$refs.pagination.size// ref 获取子组件其中的一个变量,设定好一页要多少条数
       }).then((response) => {
         console.log("查询大章列表", response);
-        _this.chapters = response.data.list;
+        _this.chapters = response.data.content.list;
         _this.$refs.pagination.render(page,response.data.total)
       })
-    }
+    },
+    save() {
+      let _this = this;
+      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/save1",_this.chapter).then((response) => {
+        console.log("保存大章", response);
+      })
+    },
+
   }
 
 }

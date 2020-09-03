@@ -27,13 +27,6 @@ public class ChapterController {
     @Resource
     private ChapterService chapterService;
 
-    @PostMapping("list1")
-    public PageDto list1(@RequestBody PageDto pageDto){
-        chapterService.list1(pageDto);
-        LOG.info("pageDto={}",pageDto);
-        return pageDto;
-    }
-
     @PostMapping("/list")
     public ResponseDto list(@RequestBody PageDto pageDto){
         // 此处考不考虑直接新建一个静态方法呢
@@ -58,6 +51,8 @@ public class ChapterController {
         responseDto.setContent(chapterDto);
         return responseDto;
     }
+
+
     @DeleteMapping("/delete/{id}")
 //    @RequestMapping("/delete/{id}/{name}")
 //    public ResponseDto delete(@PathVariable String id,@PathVariable String name){
@@ -65,6 +60,17 @@ public class ChapterController {
         ResponseDto responseDto = ResponseDto.getInstance();
         LOG.info("id:{}",id);
         chapterService.delete(id);
+        return responseDto;
+    }
+
+
+    @PostMapping("/save1")
+    public ResponseDto save1(@RequestBody ChapterDto chapterDto){
+        LOG.info("chapterDto:{}",chapterDto);
+
+        ResponseDto responseDto = ResponseDto.getInstance();
+        chapterService.save1(chapterDto);
+        responseDto.setContent(chapterDto);
         return responseDto;
     }
 }
