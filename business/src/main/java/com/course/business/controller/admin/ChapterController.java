@@ -30,7 +30,7 @@ public class ChapterController {
     @PostMapping("/list")
     public ResponseDto list(@RequestBody PageDto pageDto){
         // 此处考不考虑直接新建一个静态方法呢
-        ResponseDto responseDto = new ResponseDto();
+        ResponseDto responseDto = ResponseDto.getInstance();
         // 直接就是使用的前端返回的dto 所以不必返回
         chapterService.list(pageDto);
         LOG.info("pageDto={}",pageDto);

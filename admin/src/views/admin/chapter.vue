@@ -83,7 +83,7 @@
 
             <div class="hr hr-18 dotted hr-double"></div>
 
-            <div class="modal fade" tabindex="-1" role="dialog">
+            <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -160,7 +160,7 @@ export default {
   methods: {
     add(){
       let _this = this
-      $(".modal").modal("show");
+      $("#form-modal").modal("show");
       // $(".modal").modal("hide");
       // $(".modal").modal({background:'static'});
     },
@@ -171,14 +171,20 @@ export default {
         size:_this.$refs.pagination.size// ref 获取子组件其中的一个变量,设定好一页要多少条数
       }).then((response) => {
         console.log("查询大章列表", response);
-        _this.chapters = response.data.content.list;
-        _this.$refs.pagination.render(page,response.data.total)
+        let resp = response.data;
+        _this.chapters = resp.content.list;
+        _this.$refs.pagination.render(page,resp.content.total)
       })
     },
     save() {
       let _this = this;
       _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/save1",_this.chapter).then((response) => {
         console.log("保存大章", response);
+        let resp = response.data;
+        if(resp.success){
+          $("#form-modal").modal("hide");
+          _this.list(1);
+        }
       })
     },
 
