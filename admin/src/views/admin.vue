@@ -465,6 +465,20 @@ export default {
     $('body').remove('class', 'login-layout light-login');
     $('body').attr('class', 'no-skin');
   },
+  watch:{
+    $route: {
+      // sidebar 激活样式方法二
+      // 第一次进入无法起作用
+      handler: function (val, oldVal) {
+        console.log("--页面跳转",val,oldVal);
+        let _this= this;
+        _this.$nextTick(function () {// 页面加载完之后执行
+          // 这个地方使用到了前方的约定  business-chapter-sidebar  将路由business/chapter，也就是router中的name  变成business-chapter-sidebar
+          _this.activeSidebar(_this.$route.name.replace("/","-")+"-sidebar");
+        })
+      }
+    }
+  },
   methods: {
     login() {
       this.$router.push("/admin")
