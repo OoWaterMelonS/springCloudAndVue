@@ -41,6 +41,7 @@ public class ChapterController {
     public ResponseDto save(@RequestBody ChapterDto chapterDto){
         LOG.info("chapterDto:{}",chapterDto);
 
+        //todo 这个保存校验，使用@NotNull判空也可以实现 ，关于还是需要validator
         //保存校验
         ValidatorUtil.require(chapterDto.getName(),"名称");
         ValidatorUtil.require(chapterDto.getCourseId(),"课程ID");
