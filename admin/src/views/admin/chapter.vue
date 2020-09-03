@@ -21,7 +21,7 @@
                   <tr v-for="chapter in chapters">
                     <td class="detail-col">{{ chapter.id }}</td>
                     <td class="detail-col">{{ chapter.name }}</td>
-                    <td class="detail-col">{{ chapter.courseId}}</td>
+                    <td class="detail-col">{{ chapter.courseId }}</td>
                     <td>
                       <div class="hidden-sm hidden-xs btn-group">
                         <button v-on:click="edit(chapter)" class="btn btn-xs btn-info">
@@ -44,27 +44,28 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">表单</h4>
                   </div>
                   <div class="modal-body">
                     <form class="form-horizontal">
                       <div class="form-group">
-                        <label  class="col-sm-2 control-label">名称</label>
+                        <label class="col-sm-2 control-label">名称</label>
                         <div class="col-sm-10">
-                          <input v-model="chapter.name" class="form-control"  placeholder="名称">
+                          <input v-model="chapter.name" class="form-control" placeholder="名称">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label  class="col-sm-2 control-label">课程id</label>
+                        <label class="col-sm-2 control-label">课程id</label>
                         <div class="col-sm-10">
-                          <input v-model="chapter.courseId" class="form-control"  placeholder="课程id">
+                          <input v-model="chapter.courseId" class="form-control" placeholder="课程id">
                         </div>
                       </div>
                     </form>
                   </div>
                   <div class="modal-footer">
-                    <button type="button"  class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     <button v-on:click="save()" type="button" class="btn btn-primary">保存</button>
                   </div>
                 </div><!-- /.modal-content -->
@@ -97,12 +98,13 @@
 
 <script>
 import Pagination from "../../components/pagination"
+
 export default {
-  components:{Pagination},
+  components: {Pagination},
   name: "chapter",
   mounted() {
     let _this = this;
-    _this.$refs.pagination.size=5;
+    _this.$refs.pagination.size = 5;
     _this.list();
     // 方法1
     // let _this = this
@@ -115,69 +117,63 @@ export default {
     }
   },
   methods: {
-    add(){
+    add() {
       let _this = this;
-      _this.chapter={};
+      _this.chapter = {};
       $("#form-modal").modal("show");
       // $(".modal").modal("hide");
       // $(".modal").modal({background:'static'});
     },
-    edit(chapter){
+    edit(chapter) {
       let _this = this
-      _this.chapter =$.extend({},chapter);// juery的函数，复制一份，不直接修改chapter本体
+      _this.chapter = $.extend({}, chapter);// jquery的函数，复制一份，不直接修改chapter本体
       $("#form-modal").modal("show");
       // $(".modal").modal("hide");
       // $(".modal").modal({background:'static'});
     },
     list(page) {
       let _this = this;
-      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list",{
-        page:page,
-        size:_this.$refs.pagination.size// ref 获取子组件其中的一个变量,设定好一页要多少条数
+      Loading.show();
+      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list", {
+        page: page,
+        size: _this.$refs.pagination.size// ref 获取子组件其中的一个变量,设定好一页要多少条数
       }).then((response) => {
+        Loading.hide();
         console.log("查询大章列表", response);
         let resp = response.data;
         _this.chapters = resp.content.list;
-        _this.$refs.pagination.render(page,resp.content.total)
+        _this.$refs.pagination.render(page, resp.content.total)
       })
     },
     save() {
       let _this = this;
-      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/save",_this.chapter).then((response) => {
+      Loading.show();
+      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/save", _this.chapter).then((response) => {
+        Loading.hide();
         console.log("保存大章", response);
         let resp = response.data;
-        if(resp.success){
+        if (resp.success) {
           $("#form-modal").modal("hide");
           _this.list(1);
+          toast.success("保存成功");
         }
       })
     },
     del(id) {
       let _this = this;
-      Swal.fire({
-        title: '删除确认?',
-        text: "删除后不恢复，确认删除？",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '确认!'
-      }).then((result) => {
-        if (result.value) {
-          _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/delete/"+id).then((response) => {
+      Loading.show();
+      _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/delete/" + id).then((response) => {
+        Loading.hide();
             console.log("删除大章", response);
             let resp = response.data;
-            if(resp.success){
+            if (resp.success) {
               _this.list(1);//todo 这个怎么停留在此前的界面呢？
-              Swal.fire(
-                  '删除成功!',
-                  '删除成功!',
-                  'success'
-              )
+              toast.success("删除成功");
+            } else {
+              toast.error("删除失败");
             }
-          });
-        }
-      })
+          }
+      )
     },
 
   }
