@@ -27,6 +27,12 @@ public class ChapterController {
     @Resource
     private ChapterService chapterService;
 
+    @GetMapping("list1")
+    public ResponseDto list1(){
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setContent(chapterService.list1());
+        return responseDto;
+    }
 
     @PostMapping("/list")
     public ResponseDto list(@RequestBody PageDto pageDto){

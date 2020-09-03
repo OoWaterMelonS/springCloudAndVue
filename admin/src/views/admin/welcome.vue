@@ -8,8 +8,9 @@
 export default {
   name: "welcome",
   mounted() {
-    let _this = this
-    _this.$parent.activeSidebar("welcome-sidebar");
+    // 方法1
+    // let _this = this
+    // _this.$parent.activeSidebar("welcome-sidebar");
   },
   methods:function (){
 

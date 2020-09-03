@@ -464,14 +464,18 @@ export default {
   mounted: function () {
     $('body').remove('class', 'login-layout light-login');
     $('body').attr('class', 'no-skin');
+
+    // 由于是监听这个页面到其他页面的时候才会触发这个方法，所以没法在第一次进入的时候执行这个方法，因此需要在挂载的时候主动执行一次
+    let _this = this
+    _this.activeSidebar(_this.$route.name.replace("/","-")+"-sidebar");
   },
   watch:{
     $route: {
       // sidebar 激活样式方法二
       // 第一次进入无法起作用
-      handler: function (val, oldVal) {
+      handler: function (val, oldVal) {  // 监听到路由跳转，就在页面加载完之后执行一个方法=》更改样式
         console.log("--页面跳转",val,oldVal);
-        let _this= this;
+        // let _this= this;
         _this.$nextTick(function () {// 页面加载完之后执行
           // 这个地方使用到了前方的约定  business-chapter-sidebar  将路由business/chapter，也就是router中的name  变成business-chapter-sidebar
           _this.activeSidebar(_this.$route.name.replace("/","-")+"-sidebar");

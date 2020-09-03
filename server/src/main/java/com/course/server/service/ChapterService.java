@@ -76,4 +76,17 @@ public class ChapterService {
     public void delete(String id) {
         chapterMapper.deleteByPrimaryKey(id);
     }
+
+    public List<ChapterDto> list1(){
+        ChapterExample chapterExample = new ChapterExample();
+        chapterExample.getOrderByClause();
+        List<Chapter> chapterList = chapterMapper.selectByExample(chapterExample);
+        List<ChapterDto> chapterDtoList = new ArrayList<>();
+        for (int i = 0,l = chapterList.size(); i < l; i++){
+            ChapterDto chapterDto = new ChapterDto();
+            BeanUtils.copyProperties(chapterList.get(i),chapterDto);
+            chapterDtoList.add(chapterDto);
+        }
+        return chapterDtoList;
+    }
 }
