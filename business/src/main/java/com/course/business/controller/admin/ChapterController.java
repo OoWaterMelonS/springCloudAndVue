@@ -53,6 +53,11 @@ public class ChapterController {
     }
 
 
+    /**
+     * PathVariable 路由路径上的变量
+     * @param id
+     * @return
+     */
     @DeleteMapping("/delete/{id}")
 //    @RequestMapping("/delete/{id}/{name}")
 //    public ResponseDto delete(@PathVariable String id,@PathVariable String name){
