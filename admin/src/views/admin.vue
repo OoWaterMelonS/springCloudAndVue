@@ -467,27 +467,27 @@ export default {
   },
   methods: {
     login() {
-      this.$router.push("admin")
+      this.$router.push("/admin")
     },
     /**
-     * jquery的选择器和方法，dom节点数
+     * jquery的选择器和方法，dom节点
      * 菜单激活样式。id是当前点击的菜单的id
      * @param id
      */
     activeSidebar:function (id){
-      //兄弟菜单去掉active样式，自身增加active样式
-      $("#"+id).siblings().removeClass("active");
+      //兄弟菜单去掉active样式，，兄弟菜单的li节点也去除active样式，自身增加active样式
+      $("#"+id).siblings().removeClass("active");//学习到5-2此时的代码中，由于兄弟菜单节点自身没有带有active的属性
       $("#"+id).siblings().find("li").removeClass("active");
       $("#"+id).addClass("active");
 
       //如果有父菜单，父菜单的兄弟菜单去掉open active,父菜单增加open active
-      let parentLi = $("#"+id).parent("li");
+      let parentLi = $("#"+id).parents("li");
       if(parentLi){
         parentLi.siblings().removeClass("open active");
         parentLi.addClass("open active");
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
