@@ -9,64 +9,68 @@ import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 @Service
 public class SectionService {
-@Resource
-private SectionMapper sectionMapper;
 
-public PageDto list(PageDto pageDto){
-// 查第一页，查一条
-// 注意：pageNum是从1开始的，不是从0开始的
-PageHelper.startPage(pageDto.getPage(),pageDto.getSize());
+    @Resource
+    private SectionMapper sectionMapper;
 
-SectionExample sectionExample = new SectionExample();
-List<Section> sectionList = sectionMapper.selectByExample(sectionExample);
+    /**
+     * 列表查询
+     */
+    public void list(PageDto pageDto) {
+        PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
+        SectionExample sectionExample = new SectionExample();
+        sectionExample.setOrderByClause("sort asc");
+        List<Section> sectionList = sectionMapper.selectByExample(sectionExample);
         PageInfo<Section> pageInfo = new PageInfo<>(sectionList);
-                pageDto.setTotal(pageInfo.getTotal());
-                List<SectionDto> sectionDtoList = new ArrayList<SectionDto>();
-                                for ( int i = 0,length = sectionList.size(); i < length; i++){
-                                SectionDto sectionDto = new SectionDto();
-                                Section section = sectionList.get(i);
-                                if(section!=null) {
-                                BeanUtils.copyProperties(section, sectionDto);
-                                sectionDtoList.add(sectionDto);
-                                }
-                                }
-                                pageDto.setList(sectionList);
-                                // 此处的pageDto是从前端拿到的  后端不返回，前端也能拿到这个对象
-                                return pageDto;
-                                }
+        pageDto.setTotal(pageInfo.getTotal());
+        List<SectionDto> sectionDtoList = CopyUtil.copyList(sectionList, SectionDto.class);
+        pageDto.setList(sectionDtoList);
+    }
 
-                                public SectionDto save(SectionDto sectionDto) {
-                                Section section = CopyUtil.copy(sectionDto,Section.class);
-                                if(StringUtils.isEmpty(section.getId())){
-                                this.insert(section);
-                                }
-                                else{
-                                this.update(section);
-                                }
-                                return sectionDto;
-                                }
+    /**
+     * 保存，id有值时更新，无值时新增
+     */
+    public void save(SectionDto sectionDto) {
+        Section section = CopyUtil.copy(sectionDto, Section.class);
+        if (StringUtils.isEmpty(sectionDto.getId())) {
+            this.insert(section);
+        } else {
+            this.update(section);
+        }
+    }
 
-                                private void insert(Section section) {
-                                section.setId(UuidUtil.getShortUuid());
+    /**
+     * 新增
+     */
+    private void insert(Section section) {
+        Date now = new Date();
+        section.setCreatedAt(now);
+        section.setUpdatedAt(now);
+        section.setId(UuidUtil.getShortUuid());
+        sectionMapper.insert(section);
+    }
 
-                                sectionMapper.insert(section);
-                                }
+    /**
+     * 更新
+     */
+    private void update(Section section) {
+        section.setUpdatedAt(new Date());
+        sectionMapper.updateByPrimaryKey(section);
+    }
 
-                                private void update(Section section) {
-                                sectionMapper.updateByPrimaryKey(section);
-                                }
-
-                                public void delete(String id) {
-                                sectionMapper.deleteByPrimaryKey(id);
-                                }
-                                }
+    /**
+     * 删除
+     */
+    public void delete(String id) {
+        sectionMapper.deleteByPrimaryKey(id);
+    }
+}

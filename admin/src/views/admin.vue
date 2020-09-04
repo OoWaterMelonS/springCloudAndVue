@@ -415,6 +415,13 @@
                 </router-link>
                 <b class="arrow"></b>
               </li>
+              <li class="active" id="business-section-sidebar">
+                <router-link to="/business/section">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  小节管理
+                </router-link>
+                <b class="arrow"></b>
+              </li>
             </ul>
           </li><!-- /业务管理 -->
         </ul><!-- /.nav-list -->
@@ -467,18 +474,18 @@ export default {
 
     // 由于是监听这个页面到其他页面的时候才会触发这个方法，所以没法在第一次进入的时候执行这个方法，因此需要在挂载的时候主动执行一次
     let _this = this
-    _this.activeSidebar(_this.$route.name.replace("/","-")+"-sidebar");
+    _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
   },
-  watch:{
+  watch: {
     $route: {
       // sidebar 激活样式方法二
       // 第一次进入无法起作用
       handler: function (val, oldVal) {  // 监听到路由跳转，就在页面加载完之后执行一个方法=》更改样式
-        console.log("--页面跳转",val,oldVal);
+        console.log("--页面跳转", val, oldVal);
         // let _this= this;
         _this.$nextTick(function () {// 页面加载完之后执行
           // 这个地方使用到了前方的约定  business-chapter-sidebar  将路由business/chapter，也就是router中的name  变成business-chapter-sidebar
-          _this.activeSidebar(_this.$route.name.replace("/","-")+"-sidebar");
+          _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
         })
       }
     }
@@ -492,15 +499,15 @@ export default {
      * 菜单激活样式。id是当前点击的菜单的id
      * @param id
      */
-    activeSidebar:function (id){
+    activeSidebar: function (id) {
       //兄弟菜单去掉active样式，，兄弟菜单的li节点也去除active样式，自身增加active样式
-      $("#"+id).siblings().removeClass("active");//学习到5-2此时的代码中，由于兄弟菜单节点自身没有带有active的属性
-      $("#"+id).siblings().find("li").removeClass("active");
-      $("#"+id).addClass("active");
+      $("#" + id).siblings().removeClass("active");//学习到5-2此时的代码中，由于兄弟菜单节点自身没有带有active的属性
+      $("#" + id).siblings().find("li").removeClass("active");
+      $("#" + id).addClass("active");
 
       //如果有父菜单，父菜单的兄弟菜单去掉open active,父菜单增加open active
-      let parentLi = $("#"+id).parents("li");
-      if(parentLi){
+      let parentLi = $("#" + id).parents("li");
+      if (parentLi) {
         parentLi.siblings().removeClass("open active");
         parentLi.addClass("open active");
       }
