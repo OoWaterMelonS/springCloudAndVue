@@ -17,7 +17,7 @@
                   <tr>
                     <th class="detail-col">ID</th>
                     <th class="detail-col">名称</th>
-                    <th class="detail-col">课程</th>
+                    <th class="detail-col">课程ID</th>
                     <th class="detail-col">操作</th>
                   </tr>
                   </thead>
@@ -57,15 +57,16 @@
                   <div class="modal-body">
                     <form class="form-horizontal">
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">名称</label>
+                        <label class="col-sm-2 control-label">大章名称</label>
                         <div class="col-sm-10">
-                          <input v-model="chapter.name" class="form-control" placeholder="名称">
+                          <input v-model="chapter.name" class="form-control" placeholder="大章名称">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">课程id</label>
+                        <label class="col-sm-2 control-label">课程名称</label>
                         <div class="col-sm-10">
-                          <input v-model="chapter.courseId" class="form-control" placeholder="课程id">
+<!--                          <input v-model="chapter.courseId" class="form-control" placeholder="课程id">-->
+                        <p class="form-control-static">{{course.name}}</p>
                         </div>
                       </div>
                     </form>
@@ -77,6 +78,8 @@
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+
+
             <p class="pull-right">
 <!--              不带参数的返回，使用router-link更方便，使用button的情况可以做更多的操作，例如传递参数-->
               <router-link to="/business/course" class="btn btn-white btn-default btn-round">
@@ -164,9 +167,11 @@ export default {
       Loading.show();
       _this.$ajax.post(process.env.VUE_APP_SERVER+"/business/admin/chapter/list", {
         page: page,
-        size: _this.$refs.pagination.size// ref 获取子组件其中的一个变量,设定好一页要多少条数
+        size: _this.$refs.pagination.size,// ref 获取子组件其中的一个变量,设定好一页要多少条数
+        courseId:_this.course.id,
       }).then((response) => {
         Loading.hide();
+        console.log(_this.course.id);
         let resp = response.data;
         _this.chapters = resp.content.list;
         _this.$refs.pagination.render(page, resp.content.total)
@@ -178,19 +183,18 @@ export default {
      */
     save() {
       let _this = this;
-
+      _this.chapter.courseId = _this.course.id;
       //保存校验
       if(!Validator.require(_this.chapter.name,"名称")
-          || !Validator.require(_this.chapter.courseId,"课程Id")
           || !Validator.length(_this.chapter.courseId,"课程Id",1,8)){
         return ;
       }
-
 
       Loading.show();
       _this.$ajax.post(process.env.VUE_APP_SERVER+"/business/admin/chapter/save", _this.chapter).then((response) => {
         Loading.hide();
         let resp = response.data;
+
         if (resp.success) {
           $("#form-modal").modal("hide");
           _this.list(1);
