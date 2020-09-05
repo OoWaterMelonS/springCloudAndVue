@@ -45,6 +45,8 @@
               <span class="badge badge-info">时长：{{course.time}}</span>&nbsp;
             </p>
             <p class="pull-right">
+              <button v-on:click="toChapter(course)" class="btn btn-corner btn-xs btn-info btn-round btn-purple">大章</button>
+              &nbsp;
               <button v-on:click="edit(course)" class="btn btn-corner btn-xs btn-info2 btn-round btn-purple">编辑</button>
               &nbsp;
               <button v-on:click="del(course.id)" class="btn btn-corner btn-xs btn-info2 btn-round btn-purple">删除</button>
@@ -246,6 +248,11 @@
             }
           })
         });
+      },
+      toChapter(course){
+        let _this = this;
+        _this.$router.push("/business/chapter");
+        SessionStorage.set("course",course);
       }
     }
   }

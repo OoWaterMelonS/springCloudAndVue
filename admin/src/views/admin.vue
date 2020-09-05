@@ -458,7 +458,7 @@
           <div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">EaApple</span>
-              OoWaterMelons &copy; time flowing  抓紧学习
+              OoWaterMelons &copy; time flowing
 						</span>
           </div>
         </div>

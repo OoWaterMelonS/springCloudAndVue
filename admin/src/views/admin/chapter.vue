@@ -1,6 +1,10 @@
 <template>
   <div>
-    <pagination ref="pagination" v-bind:list="list" v-bind:item-count="6"></pagination>
+    <div>
+      <h3>{{course.name}}</h3>
+
+    </div>
+    <div class="hr hr-18 dotted hr-double"></div>
     <div class="main-container ace-save-state" id="main-container">
       <div class="main-content">
         <div class="main-content-inner">
@@ -33,8 +37,10 @@
                       </div>
                     </td>
                   </tr>
+
                   </tbody>
                 </table>
+                <pagination ref="pagination" v-bind:list="list" v-bind:item-count="6"></pagination>
               </div><!-- /.span -->
             </div><!-- /.row -->
 
@@ -71,7 +77,11 @@
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-            <p>
+            <p class="pull-right">
+<!--              不带参数的返回，使用router-link更方便，使用button的情况可以做更多的操作，例如传递参数-->
+              <router-link to="/business/course" class="btn btn-white btn-default btn-round">
+                <i class="fa fa-arrow-left">返回课程</i>
+              </router-link>
               <button v-on:click="add()" class="btn btn-white btn-default btn-round">
                 <i class="ace-icon fa fa-edit"></i>
                 新增
@@ -99,22 +109,29 @@
 <script>
 import Pagination from "../../components/pagination"
 
+
 export default {
   components: {Pagination},
   name: "chapter",
-  mounted() {
-    let _this = this;
-    _this.$refs.pagination.size = 5;
-    _this.list();
-    // 方法1
-    // let _this = this
-    // _this.$parent.activeSidebar("business-chapter-sidebar");
-  },
   data: function () {
     return {
       chapter: {},  //映射表单数据
-      chapters: []// 初始化
+      chapters: [],// 初始化
+      course:{},
     }
+  },
+  mounted() {
+    let _this = this;
+    let course = SessionStorage.get("course");
+    if(Tool.isEmpty(course)){
+      _this.$router.push("/welcome")
+    }
+    _this.course = course;
+    _this.$refs.pagination.size = 5;
+    _this.list(1);
+    // 方法1
+    // let _this = this
+    // _this.$parent.activeSidebar("business-chapter-sidebar");
   },
   methods: {
     /**
