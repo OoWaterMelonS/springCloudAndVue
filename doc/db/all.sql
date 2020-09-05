@@ -63,6 +63,10 @@ create table `section` (
 insert into `section` (id, title, course_id, chapter_id, video, time, charge, sort, created_at, updated_at)
 values ('00000001', '测试小节01', '00000001', '00000000', '', 500, 'f', 1, now(), now());
 
+update course c set 'time' =(select sum('time') from 'section' where chapter_id='xxxx') where c.id='xxxx';
+# update course c set 'time' =(select sum('time') from 'section' where course_id=#{courseId}) where c.id=#{courseId};
+
+
 
 # ---------------------- 测试
 

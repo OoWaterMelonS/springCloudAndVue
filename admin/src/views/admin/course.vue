@@ -249,11 +249,15 @@
           })
         });
       },
+
+      /**
+       * 点击【跳转课程】
+       */
       toChapter(course){
         let _this = this;
         _this.$router.push("/business/chapter");
         SessionStorage.set("course",course);
-      }
+      },
     }
   }
 </script>

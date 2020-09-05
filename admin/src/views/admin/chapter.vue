@@ -1,8 +1,9 @@
 <template>
   <div>
     <div>
-      <h3>{{course.name}}</h3>
-
+        <router-link to="/business/course" >
+          <h3><i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue">&nbsp;{{course.name}}</i></h3>
+        </router-link>
     </div>
     <div class="hr hr-18 dotted hr-double"></div>
     <div class="main-container ace-save-state" id="main-container">
@@ -17,7 +18,6 @@
                   <tr>
                     <th class="detail-col">ID</th>
                     <th class="detail-col">名称</th>
-                    <th class="detail-col">课程ID</th>
                     <th class="detail-col">操作</th>
                   </tr>
                   </thead>
@@ -25,14 +25,16 @@
                   <tr v-for="chapter in chapters">
                     <td class="detail-col">{{ chapter.id }}</td>
                     <td class="detail-col">{{ chapter.name }}</td>
-                    <td class="detail-col">{{ chapter.courseId }}</td>
                     <td>
                       <div class="hidden-sm hidden-xs btn-group">
-                        <button v-on:click="edit(chapter)" class="btn btn-xs btn-info">
-                          <i class="ace-icon fa fa-pencil bigger-120"></i>
-                        </button>
-                        <button v-on:click="del(chapter.id)" class="btn btn-xs btn-danger">
-                          <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                        <button v-on:click="toSection(chapter)" class="btn btn-xs btn-round btn-primary">
+                          小节
+                        </button>&nbsp;
+                        <button v-on:click="edit(chapter)" class="btn btn-xs btn-round btn-info">
+                          编辑
+                        </button>&nbsp;
+                        <button v-on:click="del(chapter.id)" class="btn btn-xs btn-round btn-danger">
+                          删除
                         </button>
                       </div>
                     </td>
@@ -40,11 +42,11 @@
 
                   </tbody>
                 </table>
-                <pagination ref="pagination" v-bind:list="list" v-bind:item-count="6"></pagination>
+
               </div><!-- /.span -->
             </div><!-- /.row -->
-
             <div class="hr hr-18 dotted hr-double"></div>
+            <pagination ref="pagination" v-bind:list="list" v-bind:item-count="6"></pagination>
 
             <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
               <div class="modal-dialog" role="document">
@@ -225,6 +227,14 @@ export default {
       })
     },
 
+    /**
+     * 点击【跳转课程】
+     */
+    toSection(chapter){
+      let _this = this;
+      _this.$router.push("/business/section");
+      SessionStorage.set("chapter",chapter);
+    }
   }
 
 }

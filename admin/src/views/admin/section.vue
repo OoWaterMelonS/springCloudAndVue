@@ -1,29 +1,22 @@
 <template>
   <div>
-    <p>
-      <button v-on:click="add()" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-edit"></i>
-        新增
-      </button>
-      &nbsp;
-      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-refresh"></i>
-        刷新
-      </button>
-    </p>
-
-    <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
-
+    <div>
+      <h4>
+      <router-link to="/business/course" >
+        <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue">&nbsp;{{course.name}}</i>
+      </router-link>&nbsp;
+      <router-link to="/business/chapter" >
+        <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue">&nbsp;{{chapter.name}}</i>
+      </router-link>
+      </h4>
+    </div>
+    <div class="hr hr-18 dotted hr-double"></div>
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
             <th>ID</th>
 
             <th>标题</th>
-
-            <th>课程</th>
-
-            <th>大章</th>
 
             <th>视频</th>
 
@@ -40,8 +33,6 @@
       <tr v-for="section in sections">
           <td>{{section.id}}</td>
           <td>{{section.title}}</td>
-          <td>{{section.courseId}}</td>
-          <td>{{section.chapterId}}</td>
           <td>{{section.video}}</td>
           <td>{{section.time}}</td>
           <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
@@ -78,13 +69,13 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">课程</label>
                   <div class="col-sm-10">
-                    <input v-model="section.courseId" class="form-control">
+                    <p class="form-control-static">{{course.name}}</p>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">大章</label>
                   <div class="col-sm-10">
-                    <input v-model="section.chapterId" class="form-control">
+                    <p class="form-control-static">{{chapter.name}}</p>
                   </div>
                 </div>
                 <div class="form-group">
@@ -122,6 +113,21 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    <div class="hr hr-18 dotted hr-double"></div>
+    <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
+    <p class="pull-right">
+      <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+        <i class="ace-icon fa fa-edit"></i>
+        新增
+      </button>
+      &nbsp;
+      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
+        <i class="ace-icon fa fa-refresh"></i>
+        刷新
+      </button>
+    </p>
+
+
   </div>
 </template>
 
@@ -130,20 +136,32 @@
   export default {
     components: {Pagination},
     name: "business-section",
-    data: function() {
-      return {
-        section: {},
-        sections: [],
-        SECTION_CHARGE: SECTION_CHARGE,
-      }
-    },
     mounted: function() {
       let _this = this;
+      let course = SessionStorage.get("course");
+      if(Tool.isEmpty(course)){
+        _this.$router.push("/welcome")
+      }
+      let chapter= SessionStorage.get("chapter");
+      _this.course = course;
+      if(Tool.isEmpty(chapter)){
+        _this.$router.push("/welcome")
+      }
+      _this.chapter = chapter;
       _this.$refs.pagination.size = 5;
       _this.list(1);
       // sidebar激活样式方法一
       // this.$parent.activeSidebar("business-section-sidebar");
 
+    },
+    data: function() {
+      return {
+        section: {},
+        sections: [],
+        SECTION_CHARGE: SECTION_CHARGE,
+        course:{},
+        chapter:{},
+      }
     },
     methods: {
       /**
@@ -173,12 +191,13 @@
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/list', {
           page: page,
           size: _this.$refs.pagination.size,
+          courseId:_this.course.id,  //此处可以不加上courseid 因为courseId是唯一的  uuid
+          chapterId:_this.chapter.id
         }).then((response)=>{
           Loading.hide();
           let resp = response.data;
           _this.sections = resp.content.list;
           _this.$refs.pagination.render(page, resp.content.total);
-
         })
       },
 
@@ -196,6 +215,8 @@
         ) {
           return;
         }
+        _this.section.courseId = _this.course.id;
+        _this.section.chapterId = _this.chapter.id;
 
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section).then((response)=>{
