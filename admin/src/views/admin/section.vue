@@ -34,7 +34,7 @@
           <td>{{section.id}}</td>
           <td>{{section.title}}</td>
           <td>{{section.video}}</td>
-          <td>{{section.time}}</td>
+          <td>{{section.time | formatSecond}}</td>
           <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
           <td>{{section.sort}}</td>
         <td>
@@ -138,11 +138,11 @@
     name: "business-section",
     mounted: function() {
       let _this = this;
-      let course = SessionStorage.get("course");
+      let course = SessionStorage.get("course")|| {};
       if(Tool.isEmpty(course)){
         _this.$router.push("/welcome")
       }
-      let chapter= SessionStorage.get("chapter");
+      let chapter= SessionStorage.get("chapter")|| {};
       _this.course = course;
       if(Tool.isEmpty(chapter)){
         _this.$router.push("/welcome")

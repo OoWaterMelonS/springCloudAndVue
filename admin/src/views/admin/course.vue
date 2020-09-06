@@ -42,7 +42,7 @@
             <p>
               <span class="badge badge-info">{{course.id}}</span>&nbsp;
               <span class="badge badge-info">排序：{{course.sort}}</span>&nbsp;
-              <span class="badge badge-info">时长：{{course.time}}</span>&nbsp;
+              <span class="badge badge-info">时长：{{course.time| formatSecond}}</span>&nbsp;
             </p>
             <p class="pull-right">
               <button v-on:click="toChapter(course)" class="btn btn-corner btn-xs btn-info btn-round btn-purple">大章</button>

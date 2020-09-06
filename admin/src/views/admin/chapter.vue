@@ -127,9 +127,9 @@ export default {
   },
   mounted() {
     let _this = this;
-    let course = SessionStorage.get("course");
+    let course = SessionStorage.get("course") || {};
     if(Tool.isEmpty(course)){
-      _this.$router.push("/welcome")
+      _this.$router.push("/welcome");
     }
     _this.course = course;
     _this.$refs.pagination.size = 5;
