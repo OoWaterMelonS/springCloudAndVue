@@ -200,7 +200,7 @@ export default {
     // },
 
     /**
-     * 列表查询
+     * 所有查询
      */
     all() {
       let _this = this;
