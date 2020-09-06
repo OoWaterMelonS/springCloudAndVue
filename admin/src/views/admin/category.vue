@@ -31,12 +31,12 @@
           </tbody>
         </table>
         <p class="pull-right">
-          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+          <button v-on:click="add1()" class="btn btn-white btn-default btn-round">
             <i class="ace-icon fa fa-edit"></i>
-            新增
+            新增一级
           </button>
           &nbsp;
-          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+          <button v-on:click="all()" class="btn btn-white btn-default btn-round">
             <i class="ace-icon fa fa-refresh"></i>
             刷新
           </button>
@@ -73,9 +73,9 @@
           </tbody>
         </table>
         <p class="pull-right">
-          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+          <button v-on:click="add2()" class="btn btn-white btn-default btn-round">
             <i class="ace-icon fa fa-edit"></i>
-            新增
+            新增二级
           </button>
           &nbsp;
         </p>
@@ -94,9 +94,10 @@
           <div class="modal-body">
             <form class="form-horizontal">
               <div class="form-group">
-                <label class="col-sm-2 control-label">父id</label>
+                <label class="col-sm-2 control-label">父分类</label>
                 <div class="col-sm-10">
-                  <input v-model="category.parent" class="form-control">
+<!--                  一级分类就是无-->
+                  <p class="form-control-static">{{active.name || "无"}}</p>
                 </div>
               </div>
               <div class="form-group">
@@ -115,7 +116,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button v-on:click="all()" type="button" class="btn btn-primary">保存</button>
+            <button v-on:click="save()" type="button" class="btn btn-primary">保存</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -145,12 +146,31 @@ export default {
   },
   methods: {
     /**
-     * 点击【新增】
+     * 点击【新增一级】
      */
-    add() {
+    add1() {
       let _this = this;
-      _this.category = {};
+      _this.active = {};
+      _this.level2 = [];
+      _this.category = {
+        parent: "00000000"
+      };
       $("#form-modal").modal("show");
+    },
+
+    /**
+     * 点击【新增二级】
+     */
+    add2() {
+      let _this = this;
+      if (Tool.isEmpty(_this.active)) {
+        Toast.warning("请先点击一级分类");
+        return;
+      }
+      _this.category = {
+        parent: _this.active.id
+      };
+      $(".modal").modal("show");
     },
 
     /**
@@ -207,6 +227,13 @@ export default {
             }
           }
         }
+
+        _this.level2 = [];
+        // 对当前一级分类中选中的表格触发一次点击事件，以刷新二级菜单列表
+        // 注意：界面的渲染需要等vue绑定好变量后才做，所以加延时100ms
+        setTimeout(function () {
+          $("tr.active").trigger("click");
+        }, 100);
       })
     },
 
@@ -226,12 +253,13 @@ export default {
       }
 
       Loading.show();
+      // if(_this.category.sort)  //todo 当输入顺序是非数字的时候，应该校验  后端需要的是Integer类型
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/category/save', _this.category).then((response) => {
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
           $("#form-modal").modal("hide");
-          _this.list(1);
+          _this.all();
           Toast.success("保存成功！");
         } else {
           Toast.warning(resp.message)
@@ -250,7 +278,7 @@ export default {
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
-            _this.list(1);
+            _this.all();
             Toast.success("删除成功！");
           }
         })
