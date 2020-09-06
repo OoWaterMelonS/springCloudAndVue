@@ -22,6 +22,16 @@ public class CategoryController {
     private CategoryService categoryService;
 
     /**
+     * 所有查询
+     */
+    @GetMapping("/all")
+    public ResponseDto all() {
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setContent(categoryService.all());
+        return responseDto;
+    }
+
+    /**
      * 列表查询
      */
     @PostMapping("/list")
