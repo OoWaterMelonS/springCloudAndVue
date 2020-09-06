@@ -1,10 +1,6 @@
 package com.course.server.dto;
 
 
-import com.course.server.domain.Category;
-
-import java.util.List;
-
 public class CourseCategoryDto {
 
     /**
@@ -17,9 +13,9 @@ public class CourseCategoryDto {
      */
     private String courseId;
 
-
-
-
+    /**
+     * 分类|course.id
+     */
     private String categoryId;
 
     public String getId() {
@@ -46,17 +42,18 @@ public class CourseCategoryDto {
         this.categoryId = categoryId;
     }
 
+
     @Override
     public String toString() {
-        return "CourseCategoryDto{" +
-                "id='" + id + '\'' +
-                ", courseId='" + courseId + '\'' +
-                ", categoryId='" + categoryId + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", courseId=").append(courseId);
+        sb.append(", categoryId=").append(categoryId);
+        sb.append("]");
+        return sb.toString();
     }
-
-    /**
-     * 分类|course.id
-     */
 
 }

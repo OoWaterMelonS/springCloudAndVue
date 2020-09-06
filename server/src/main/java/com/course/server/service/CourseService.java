@@ -2,6 +2,7 @@ package com.course.server.service;
 
 import com.course.server.domain.Course;
 import com.course.server.domain.CourseExample;
+import com.course.server.dto.CategoryDto;
 import com.course.server.dto.CourseDto;
 import com.course.server.dto.PageDto;
 import com.course.server.mapper.CourseMapper;
@@ -61,7 +62,7 @@ public class CourseService {
         }
 
         //批量保存课程分类
-        courseCategoryService.saveBash(courseDto);
+        courseCategoryService.saveBatch(courseDto.getId(), courseDto.getCategorys());
     }
 
     /**

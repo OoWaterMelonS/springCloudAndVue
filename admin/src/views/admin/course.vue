@@ -344,7 +344,6 @@ export default {
       Loading.show();
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/list-category/' + courseId).then((res)=>{
         Loading.hide();
-        console.log("查找课程下所有分类结果：", res);
         let response = res.data;
         let categorys = response.content;
 
