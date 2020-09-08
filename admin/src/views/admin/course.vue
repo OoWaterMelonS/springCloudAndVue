@@ -371,7 +371,7 @@ export default {
     toChapter(course) {
       let _this = this;
       _this.$router.push("/business/chapter");
-      SessionStorage.set("course", course);
+      SessionStorage.set(SESSION_KEY_COURSE, course);
     },
 
 

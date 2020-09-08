@@ -127,7 +127,7 @@ export default {
   },
   mounted() {
     let _this = this;
-    let course = SessionStorage.get("course") || {};
+    let course = SessionStorage.get(SESSION_KEY_COURSE) || {};
     if(Tool.isEmpty(course)){
       _this.$router.push("/welcome");
     }
@@ -136,7 +136,7 @@ export default {
     _this.list(1);
     // 方法1
     // let _this = this
-    // _this.$parent.activeSidebar("business-chapter-sidebar");
+    _this.$parent.activeSidebar("business-course-sidebar");
   },
   methods: {
     /**
@@ -233,7 +233,7 @@ export default {
     toSection(chapter){
       let _this = this;
       _this.$router.push("/business/section");
-      SessionStorage.set("chapter",chapter);
+      SessionStorage.set(SESSION_KEY_CHAPTER,chapter);
     }
   }
 

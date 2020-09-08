@@ -1,0 +1,4 @@
+/*表格内容上下居中*/
+.table td{
+  vertical-align: middle;
+}

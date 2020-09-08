@@ -138,11 +138,11 @@
     name: "business-section",
     mounted: function() {
       let _this = this;
-      let course = SessionStorage.get("course")|| {};
+      let course = SessionStorage.get(SESSION_KEY_COURSE)|| {};
       if(Tool.isEmpty(course)){
         _this.$router.push("/welcome")
       }
-      let chapter= SessionStorage.get("chapter")|| {};
+      let chapter= SessionStorage.get(SESSION_KEY_CHAPTER)|| {};
       _this.course = course;
       if(Tool.isEmpty(chapter)){
         _this.$router.push("/welcome")
@@ -151,7 +151,7 @@
       _this.$refs.pagination.size = 5;
       _this.list(1);
       // sidebar激活样式方法一
-      // this.$parent.activeSidebar("business-section-sidebar");
+      this.$parent.activeSidebar("business-course-sidebar");
 
     },
     data: function() {
