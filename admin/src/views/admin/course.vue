@@ -49,7 +49,7 @@
             <p class="pull-right">
               <button v-on:click="toChapter(course)" class="btn btn-corner btn-xs btn-info btn-round btn-purple">大章
               </button>&nbsp;
-              <button v-on:click="editContent(course)" class="btn btn-white btn-xs btn-info btn-round">内容</button>&nbsp;
+              <button v-on:click="editContent(course)" class="btn btn-purple btn-xs btn-info btn-round">内容</button>&nbsp;
               <button v-on:click="edit(course)" class="btn btn-corner btn-xs btn-info2 btn-round btn-purple">编辑</button>&nbsp;
               <button v-on:click="del(course.id)" class="btn btn-corner btn-xs btn-info2 btn-round btn-purple">删除
               </button>&nbsp;
@@ -373,6 +373,7 @@ export default {
       // 展开所有的节点
       // _this.tree.expandAll(true);
     },
+
     /**
      * 查找课程下所有分类
      * @param courseId
@@ -393,6 +394,7 @@ export default {
         }
       })
     },
+
     /**
      * 打开内容编辑框
      */
@@ -407,6 +409,7 @@ export default {
       // 先清空历史文本
       $("#content").summernote('code', '');
       _this.saveContentLabel = "";
+
       Loading.show();
       _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/admin/course/find-content/' + id).then((response) => {
         Loading.hide();
@@ -415,8 +418,11 @@ export default {
         if (resp.success) {
           $("#course-content-modal").modal({backdrop: 'static', keyboard: false});
           if (resp.content) {
+            // 填充原本的课程内容
             $("#content").summernote('code', resp.content.content);
           }
+
+
           // 定时自动保存
           let saveContentInterval = setInterval(function() {
             _this.saveContent();
@@ -436,6 +442,7 @@ export default {
      */
     saveContent() {
       let _this = this;
+      // 读取出文本框中的html代码
       let content = $("#content").summernote("code");
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/save-content', {
             id: _this.course.id,
@@ -445,9 +452,13 @@ export default {
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
-          Toast.success("内容保存成功");
+          // Toast.success("内容保存成功");
+          let now = Tool.dateFormat("yyyy-MM-dd hh:mm:ss");
+          _this.saveContentLabel = "最后保存时间："+now;
         } else {
           Toast.warning(resp.message);
+
+
         }
       });
     }

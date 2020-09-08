@@ -65,6 +65,7 @@ public class CourseController {
 
     /**
      * 查找课程下所有分类
+     *
      * @param courseId
      */
     @PostMapping("/list-category/{courseId}")
@@ -77,18 +78,18 @@ public class CourseController {
 
     @GetMapping("/find-content/{id}")
     public ResponseDto findContent(@PathVariable String id) {
-                ResponseDto responseDto = new ResponseDto();
-                CourseContentDto contentDto = courseService.findContent(id);
-                responseDto.setContent(contentDto);
-                return responseDto;
-            }
+        ResponseDto responseDto = new ResponseDto();
+        CourseContentDto contentDto = courseService.findContent(id);
+        responseDto.setContent(contentDto);
+        return responseDto;
+    }
 
-            @PostMapping("/save-content")
+    @PostMapping("/save-content")
     public ResponseDto saveContent(@RequestBody CourseContentDto contentDto) {
-                ResponseDto responseDto = new ResponseDto();
-                courseService.saveContent(contentDto);
-                return responseDto;
-            }
+        ResponseDto responseDto = new ResponseDto();
+        courseService.saveContent(contentDto);
+        return responseDto;
+    }
 
 
 }

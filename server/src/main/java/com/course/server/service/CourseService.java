@@ -114,7 +114,7 @@ public class CourseService {
     }
 
     /**
-     * 保存课程内容，包含新增和修改
+     * 保存课程内容，包含新增和修改  减少数据库的交互
      */
     public int saveContent(CourseContentDto contentDto) {
         CourseContent content = CopyUtil.copy(contentDto, CourseContent.class);
