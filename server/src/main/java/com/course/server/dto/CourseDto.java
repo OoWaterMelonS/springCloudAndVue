@@ -78,6 +78,16 @@ public class CourseDto {
 
     private List<CategoryDto> categorys;
 
+    private String teacherId;
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
+
     public String getId() {
         return id;
     }
@@ -190,6 +200,8 @@ public class CourseDto {
         this.categorys = categorys;
     }
 
+
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CourseDto{");
@@ -207,6 +219,7 @@ public class CourseDto {
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
         sb.append(", categorys=").append(categorys);
+        sb.append(", teacherId='").append(teacherId).append('\'');
         sb.append('}');
         return sb.toString();
     }

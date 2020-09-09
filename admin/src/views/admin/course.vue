@@ -35,6 +35,16 @@
             <h3 class="search-title">
               <a href="#" class="blue">{{ course.name }}</a>
             </h3>
+            <div v-for="teacher in teachers.filter(t=>{return t.id===course.teacherId})"
+                 class="profile-activity clearfix">
+              <div>
+                <img v-show="!teacher.image" class="pull-left" src="/ace/assets/images/avatars/avatar5.png">
+                <img v-show="teacher.image" class="pull-left" v-bind:src="teacher.image">
+                <a class="user" href="#"> {{ teacher.name }} </a>
+                <br>
+                {{ teacher.position }}
+              </div>
+            </div>
             <p>
               <span class="blue bolder bigger-150"><i class="fa fa-rmb fa-align-center"></i>{{
                   course.price
@@ -44,7 +54,7 @@
             <p>
               <span class="badge badge-info">{{ course.id }}</span>&nbsp;
               <span class="badge badge-info">排序：{{ course.sort }}</span>&nbsp;
-              <span class="badge badge-info">时长：{{ course.time| formatSecond }}</span>&nbsp;
+              <span class="badge badge-info">{{ course.time| formatSecond }}</span>&nbsp;
             </p>
             <p class="pull-right">
               <button v-on:click="toChapter(course)" class="btn btn-corner btn-xs btn-info btn-round btn-purple">大章
@@ -80,6 +90,14 @@
                 <label class="col-sm-2 control-label">名称</label>
                 <div class="col-sm-10">
                   <input v-model="course.name" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">讲师</label>
+                <div class="col-sm-10">
+                  <select v-model="course.teacherId" class="form-control">
+                    <option v-for="o in teachers" v-bind:value="o.id">{{ o.name }}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group">
@@ -192,7 +210,8 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">排序</h4>
           </div>
           <div class="modal-body">
@@ -253,12 +272,14 @@ export default {
         id: "",
         oldSort: 0,
         newSort: 0
-      }
+      },
+      teachers: [],
     }
   },
   mounted: function () {
     let _this = this;
     _this.$refs.pagination.size = 5;
+    _this.allTeacher();
     _this.allCategory();
     _this.list(1);
     // sidebar激活样式方法一
@@ -295,12 +316,11 @@ export default {
     list(page) {
       let _this = this;
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER+'/business/admin/course/list', {
-        page: page,
-        size: _this.$refs.pagination.size,
-      }
-    ).
-      then((response) => {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/list', {
+            page: page,
+            size: _this.$refs.pagination.size,
+          }
+      ).then((response) => {
         Loading.hide();
         let resp = response.data;
         _this.courses = resp.content.list;
@@ -334,7 +354,7 @@ export default {
       _this.course.categorys = categorys;
       Loading.show();
 
-      _this.$ajax.post(process.env.VUE_APP_SERVER+ '/business/admin/course/save', _this.course).then((response) => {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/save', _this.course).then((response) => {
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
@@ -354,7 +374,7 @@ export default {
       let _this = this;
       Confirm.show("删除课程后不可恢复，确认删除？", function () {
         Loading.show();
-        _this.$ajax.delete(process.env.VUE_APP_SERVER+'/business/admin/course/delete/'+id).then((response) => {
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/course/delete/' + id).then((response) => {
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
@@ -385,18 +405,19 @@ export default {
     },
 
     /**
-     * 所有查询
+     * 分类所有查询
      */
     allCategory() {
       let _this = this;
       Loading.show();
-      _this.$ajax.get(process.env.VUE_APP_SERVER+ '/business/admin/category/all').then((response) => {
+      _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/admin/category/all').then((response) => {
         Loading.hide();
         let resp = response.data;
         _this.categorys = resp.content;
         _this.initTree();
       })
     },
+
 
     /**
      * zTree的初始化
@@ -433,14 +454,15 @@ export default {
     listCategory(courseId) {
       let _this = this;
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER+ '/business/admin/course/list-category/'+ courseId).then((res) => {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/list-category/' + courseId).then((res) => {
         Loading.hide();
+        console.log("查找课程下所有分类结果：", res);
         let response = res.data;
         let categorys = response.content;
 
         // 勾选查询到的分类
         _this.tree.checkAllNodes(false);
-        for (let i = 0; i < categorys.length; i) {
+        for (let i = 0; i < categorys.length; i++) {
           let node = _this.tree.getNodeByParam("id", categorys[i].categoryId);
           _this.tree.checkNode(node, true);
         }
@@ -476,7 +498,7 @@ export default {
 
 
           // 定时自动保存
-          let saveContentInterval = setInterval(function() {
+          let saveContentInterval = setInterval(function () {
             _this.saveContent();
           }, 5000);
           // 关闭内容框时，清空自动保存任务
@@ -506,7 +528,7 @@ export default {
         if (resp.success) {
           // Toast.success("内容保存成功");
           let now = Tool.dateFormat("yyyy-MM-dd hh:mm:ss");
-          _this.saveContentLabel = "最后保存时间："+now;
+          _this.saveContentLabel = "最后保存时间：" + now;
         } else {
           Toast.warning(resp.message);
 
@@ -549,7 +571,21 @@ export default {
           Toast.error("更新排序失败");
         }
       });
-    }
+    },
+
+    /**
+     * 讲师所有查询
+     */
+    allTeacher() {
+      let _this = this;
+      Loading.show();
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/teacher/all').then((response) => {
+        Loading.hide();
+        let resp = response.data;
+        _this.teachers = resp.content;
+        console.log(_this.teachers);
+      })
+    },
   }
 }
 </script>

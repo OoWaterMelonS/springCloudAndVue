@@ -13,6 +13,12 @@ spring:
           uri: lb://business
           predicates:
             - Path=/business/**
+        - id: file
+#          file和gateway使用的是同一个模块gateway的带宽，各自的带宽没有影响，但是整体gateway的带宽有影响，
+#  所以在实际的开发项目的时候，为了更好的用户体验，一般会单独为大带宽的file模块增加一个路由gateway
+          uri: http://127.0.0.1:9003
+          predicates:
+            - Path=/file/**
 
 server:
   #路由最重要  所以最先开始
