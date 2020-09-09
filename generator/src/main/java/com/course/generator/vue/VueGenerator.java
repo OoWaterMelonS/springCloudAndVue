@@ -16,7 +16,7 @@ import java.util.*;
  * description：前端vue的代码生成器
  */
 public class VueGenerator {
-    static String MODULE = "business";
+    static String MODULE = "file";
     static String toVuePath = "admin\\src\\views\\admin\\";
     static String generatorConfigPath ="server\\\\src\\\\main\\\\resources\\\\generator\\\\generatorConfig.xml";
 
