@@ -18,8 +18,10 @@
       <div v-for="teacher in teachers" class="col-md-3 center">
         <div>
           <span class="profile-picture">
-            <img v-show="!teacher.image" class="editable img-responsive editable-click editable-empty" src="/static/image/讲师头像/头像1.jpg" v-bind:title="teacher.intro"/>
-            <img v-show="teacher.image" class="editable img-responsive editable-click editable-empty" v-bind:src="teacher.image" v-bind:title="teacher.intro"/>
+            <img v-show="!teacher.image" class="editable img-responsive editable-click editable-empty"
+                 src="/static/image/讲师头像/头像1.jpg" v-bind:title="teacher.intro"/>
+            <img v-show="teacher.image" class="editable img-responsive editable-click editable-empty"
+                 v-bind:src="teacher.image" v-bind:title="teacher.intro"/>
           </span>
 
           <div class="space-4"></div>
@@ -29,7 +31,7 @@
               <a href="javascript:;" class="user-title-label dropdown-toggle" data-toggle="dropdown">
                 <i class="ace-icon fa fa-circle light-green"></i>
                 &nbsp;
-                <span class="white">{{teacher.position}}</span>
+                <span class="white">{{ teacher.position }}</span>
               </a>
             </div>
           </div>
@@ -39,7 +41,7 @@
 
         <a href="javascript:;" class="text-info bigger-110" v-bind:title="teacher.motto">
           <i class="ace-icon fa fa-user"></i>
-          {{teacher.name}}【{{teacher.nickname}}】
+          {{ teacher.name }}【{{ teacher.nickname }}】
         </a>
 
         <div class="space-6"></div>
@@ -63,7 +65,8 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">表单</h4>
           </div>
           <div class="modal-body">
@@ -83,11 +86,11 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">头像</label>
                 <div class="col-sm-10">
-                  <button type="button"  v-on:click="selectImage()" class="btn btn-white btn-default btn-round">
+                  <button type="button" v-on:click="selectImage()" class="btn btn-white btn-default btn-round">
                     <i class="ace-icon fa fa-upload"></i>
                     上传头像
                   </button>
-                  <input class="hidden" type="file" v-on:change="uploadImage()" id="file-upload-input">
+                  <input class="hidden" type="file" ref="file" v-on:change="uploadImage()" id="file-upload-input">
                   <div v-show="teacher.image" class="row">
                     <div class="col-md-4">
                       <img v-bind:src="teacher.image" class="img-responsive">
@@ -127,16 +130,17 @@
 
 <script>
 import Pagination from "../../components/pagination";
+
 export default {
   components: {Pagination},
   name: "business-teacher",
-  data: function() {
+  data: function () {
     return {
       teacher: {},
       teachers: [],
     }
   },
-  mounted: function() {
+  mounted: function () {
     let _this = this;
     _this.$refs.pagination.size = 5;
     _this.list(1);
@@ -172,7 +176,7 @@ export default {
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/teacher/list', {
         page: page,
         size: _this.$refs.pagination.size,
-      }).then((response)=>{
+      }).then((response) => {
         Loading.hide();
         let resp = response.data;
         _this.teachers = resp.content.list;
@@ -201,7 +205,7 @@ export default {
       }
 
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/teacher/save', _this.teacher).then((response)=>{
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/teacher/save', _this.teacher).then((response) => {
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
@@ -221,7 +225,7 @@ export default {
       let _this = this;
       Confirm.show("删除讲师后不可恢复，确认删除？", function () {
         Loading.show();
-        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/teacher/delete/' + id).then((response)=>{
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/teacher/delete/' + id).then((response) => {
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
@@ -232,13 +236,30 @@ export default {
       });
     },
 
-    uploadImage () {
+    uploadImage() {
       let _this = this;
       let formData = new window.FormData();
       // key："file"必须和后端controller参数名一致
-      formData.append('file', document.querySelector('#file-upload-input').files[0]);
+      let file = _this.$refs.file.files[0];
+
+      // 判断文件格式
+      let suffixs = ["jpg", "jpeg", "png"];
+      let fileName = file.name;
+      let suffix = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase();
+      let validateSuffix = false;
+      for (let i = 0; i < suffixs.length; i++) {
+        if (suffixs[i].toLowerCase() === suffix) {
+          validateSuffix = true;
+          break;
+        }
+      }
+      if (!validateSuffix) {
+        Toast.warning("文件格式不正确！只支持上传：" + suffixs.join(","));
+        return;
+      }
+      formData.append('file', file);
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/upload', formData).then((response)=>{
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/upload', formData).then((response) => {
         Loading.hide();
         let resp = response.data;
         let image = resp.content;
@@ -247,7 +268,7 @@ export default {
       });
     },
 
-    selectImage(){
+    selectImage() {
       $("#file-upload-input").trigger("click");
     },
   }
